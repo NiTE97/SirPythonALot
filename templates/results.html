@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <h1 id="header">SirJizzALot</h1>
+    </header>
+    <h6>Search results for {{ form_data["textinput"]}} </h6>
+    <div class="video-item">
+        <div>
+        <a href="" id="video-source"><img src="https://pngimg.com/uploads/donut/donut_PNG96.png" alt="Image Thumbnail" class="video-thumbnail"></a>
+        </div>
+        <div>
+        <h4 class="video-name">Name</h4>
+        <h5 class="video-source">Source</h5>
+        </div>
+    </div>
+</body>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</html>

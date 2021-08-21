@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+    <h1 id="header">SirJizzALot</h1>
+    </header>
+    <div class="startpage">
+    <nav class="navbar navbar-light searchbar">
+        <form class="form-inline" method="POST" action="results">
+          <input class="form-control mr-sm-2 textinput" type="text" placeholder="Keywords..." aria-label="Search" id="textinput" name="textinput">
+          <button class="btn btn-success my-2 my-sm-0 searchbarbutton" type="submit">Search</button>
+        </form>
+      </nav>
+    </div>
+</body>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</html>
