@@ -10,93 +10,100 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
-def scrapingThumbnails(list):
+#Function to scrape Pornhub 
+#list = list for links and names
+#list2 = list for thumbnails
+def scrapingLinksAndNamesAndThumbnailsFromPornhub(list, list2):
     i = 0
     max = len(list)
-    links = [''] * max
-
-    while i<max:
-
-        links[i] = list[i].get('data-thumb_url')
-        i+=1    
-    
-    links = links[4:]  
-
-    return links
-
-def scrapingNames(list):
-    i = 0
-    max = len(list)
-    names = [''] * max
-
-    while i<max:
-        names[i] = list[i].get('title')
-        i+=1    
-    names = names[4:]
-    
-    return names
-
-def scrapingLinksAndNames(list):
-    i = 0
-    max = len(list)
-    links = [''] * max
-    names = [''] * max
+    maxWithoutPremium = max - 4
+    links, names, thumbnails = [''] * max, [''] * max, [''] * max
 
     while i<max:
         links[i] = "pornhub.com" + list[i].get('href')
         names[i] = list[i].get('title')
+        thumbnails[i] = list2[i].get('data-thumb_url')
 
         i+=1  
 
-    links = links[4:]  
-    names = names[4:]
+    links = links[4:maxWithoutPremium]  
+    names = names[4:maxWithoutPremium]
+    thumbnails = thumbnails[4:maxWithoutPremium]
 
-    return links, names
+    return links, names, thumbnails
+
+#Function to scrape Pornhub 
+#list = list for names and thumbnails
+#list2 = list for links
+def scrapingLinksAndNamesAndThumbnailsFromYouporn(list, list2):
+    i = 0
+    max = len(list2)
+    links, names, thumbnails = [''] * max, [''] * max, [''] * max
+
+    while i<max:
+        links[i] = "youporn.com" + list2[i].get('href')
+        names[i] = list[i].get('alt')
+        thumbnails[i] = list[i].get('data-thumbnail')
+
+        i+=1  
+    return links, names, thumbnails
 
 def scraping(keyword):
     pornhub = "https://pornhub.com/video/search?search="
-    pornhub_suffix = "&page="
-    youporn = "https://www.youporn.com/search/?search-btn=&query="
+    suffix = "&page="
+    youporn = "https://www.youporn.com/search/?query="
+    
+    #Temp Lists for loop
+    resultsLinks, resultsNames, resultsThumbnails = [], [], []
 
-    #Search
-    results = requests.get(pornhub + keyword + pornhub_suffix + "1")
-    soup = BeautifulSoup(results.text, 'html.parser')
-    list = soup.find_all(class_='rotating')
-    list2 = soup.find_all(class_='fade')
+    #Search Pornhub and Youporn
+    for i in range(1, 5):
+        #Scraping preparation Pornhub
+        resultsPornhub = requests.get(pornhub + keyword + suffix + str(i))
+        soupPornhub = BeautifulSoup(resultsPornhub.text, 'html.parser')
+        #links and names
+        listPornhub = soupPornhub.find_all(class_='rotating')
+        #thumbnails
+        list2Pornhub = soupPornhub.find_all(class_='fade')
 
-    resultsLinks, resultsNames = scrapingLinksAndNames(list2)
-    #resultsNames = scrapingNames(list2)
-    resultsThumbnails = scrapingThumbnails(list)
+        #Scraping preparation Youporn
+        resultsYouporn = requests.get(youporn + keyword + suffix + str(i))
+        soupYouporn = BeautifulSoup(resultsYouporn.text, 'html.parser')
+        #names and thumbnails
+        listYouporn = soupYouporn.find_all(class_='js-videoPreview')
+        #links
+        list2Youporn = soupYouporn.find_all(class_='video-box-image')
 
-    for i in range(2, 5):
-        results2 = requests.get(pornhub + keyword + pornhub_suffix + str(i))
-        soup2 = BeautifulSoup(results2.text, 'html.parser')
-        list3 = soup2.find_all(class_='rotating')
-        list4 = soup2.find_all(class_='fade')
-        resultsLinksi, resultsNamesi = scrapingLinksAndNames(list4)
+        #Fill lists with results from Pornhub
+        resultsLinksi, resultsNamesi, resultsThumbnailsi = scrapingLinksAndNamesAndThumbnailsFromPornhub(list2Pornhub, listPornhub)
         resultsLinks = resultsLinks + resultsLinksi
         resultsNames = resultsNames + resultsNamesi
-        #resultsNames = resultsNames + scrapingNames(list4)
-        resultsThumbnails = resultsThumbnails + scrapingThumbnails(list3)    
+        resultsThumbnails = resultsThumbnails + resultsThumbnailsi  
+
+        #Fill lists with results from Youporn
+        resultsLinksp, resultsNamesp, resultsThumbnailsp = scrapingLinksAndNamesAndThumbnailsFromYouporn(listYouporn, list2Youporn)
+        resultsLinks = resultsLinks + resultsLinksp
+        resultsNames = resultsNames + resultsNamesp
+        resultsThumbnails = resultsThumbnails + resultsThumbnailsp 
 
     return resultsLinks, resultsNames, resultsThumbnails
 
 
 @app.route("/results", methods=['POST','GET'])
 def results():
+    #Check if form is POST
     if request.method == 'GET':
         return home()
     if request.method == 'POST':
+        #Get input from form
         form_data = request.form
         keyword = form_data["textinput"]
+        #Scraping Web
         resultsLinks, resultsNames, resultsThumbnails = scraping(keyword)
         lenght = len(resultsThumbnails)
-
-        pornhub = "https://pornhub.com/video/search?search="
-        pornhub_suffix = "&page="
-        string = pornhub + keyword + pornhub_suffix + "2"
+        #Display results
         return render_template('results.html',form_data = form_data, resultsThumbnails = resultsThumbnails, resultsNames = resultsNames
-                                , resultsLinks = resultsLinks, lenght = lenght, string = string)
+                                , resultsLinks = resultsLinks, lenght = lenght)
 
 if __name__ =='__main__':
     app.run(debug=True)
