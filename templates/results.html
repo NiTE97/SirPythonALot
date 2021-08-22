@@ -10,7 +10,9 @@
     <header>
         <a href="/"><h1 id="header">SirJizzALot</h1></a>
     </header>
-    <h6>Search results for {{ form_data["textinput"]}}: {{lenght}} {{index}}</h6>
+    <div class="container">
+    <h6>Search results for {{ form_data["textinput"]}}</h6>
+    <h8>{{lenght}} results</h8>
 
     {%for i in range(0, lenght)%}
   
@@ -26,7 +28,7 @@
 
     {%endfor%}
 
-    
+    </div>
 </body>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
