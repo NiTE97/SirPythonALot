@@ -31,10 +31,12 @@ header{
     border: 2px solid black;
     border-radius: 5px;
     display: flex;
+    width: 100vw;
+    height: auto;
 }
 .video-thumbnail{
     border: 1px solid black;
     border-radius: 3px;
     height: 5rem;
-    width: 5rem;
+    width: auto;
 }

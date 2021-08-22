@@ -10,16 +10,23 @@
     <header>
         <h1 id="header">SirJizzALot</h1>
     </header>
-    <h6>Search results for {{ form_data["textinput"]}} </h6>
+    <h6>Search results for {{ form_data["textinput"]}}: {{lenght}}</h6>
+
+    {%for i in range(0, lenght)%}
+  
     <div class="video-item">
         <div>
-        <a href="" id="video-source"><img src="https://pngimg.com/uploads/donut/donut_PNG96.png" alt="Image Thumbnail" class="video-thumbnail"></a>
+        <a href="https://{{resultsLinks[i]}}" id="video-source"><img src="{{resultsThumbnails[i]}}" alt="{{resultsThumbnails[i]}}" class="video-thumbnail"></a>
         </div>
         <div>
-        <h4 class="video-name">Name</h4>
-        <h5 class="video-source">Source</h5>
+        <h6 class="video-name">{{ resultsNames[i]}}</h6>
+        <!-- <h5 class="video-source">{{ resultsLinks[i]}}</h5> -->
         </div>
     </div>
+
+    {%endfor%}
+
+    
 </body>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
