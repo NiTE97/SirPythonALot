@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 
+#Default route
 @app.route("/")
 @app.route("/index")
 def home():

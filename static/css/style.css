@@ -25,7 +25,7 @@ header{
 }
 .searchbar{
     background-color: #1a2238;
-    width: 15em;
+    width: 80vw;
     height: 8em;
     justify-content: center;
     position: absolute;
@@ -33,10 +33,18 @@ header{
     left: 50%;
     transform: translate(-50%,-50%);
 }
+
+.textinput {
+    width: 80vw;
+}
 .searchbarbutton{
-    margin-left: 10rem;
     background-color: #f4db7d;
     color: #1a2238;
+    position: absolute;
+    right: 0%;
+    bottom: 0%;
+    transform: translate(0%, 20%);
+
 }
 .video-item{
     background-color: #9daaf2;
