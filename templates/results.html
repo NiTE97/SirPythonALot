@@ -11,7 +11,7 @@
         <a href="/"><img src="{{ url_for('static', filename='SirJizzALot.png') }}" alt="SirJizzALot" class="logo"></a>
     </header>
     <div class="container">
-    <h6>Search results for {{ form_data["textinput"]}}</h6>
+    <h6 class="resultNumber">Search results for {{ form_data["textinput"]}}</h6>
     <h8>{{lenght}} results</h8>
 
     {%for i in range(0, lenght)%}

@@ -58,7 +58,10 @@ def scraping(keyword):
     resultsLinks, resultsNames, resultsThumbnails = [], [], []
 
     #Search Pornhub and Youporn
-    for i in range(1, 5):
+    #Development:
+    for i in range(1, 2):
+    #Deployment
+    #for i in range(1, 5):
         #Scraping preparation Pornhub
         resultsPornhub = requests.get(pornhub + keyword + suffix + str(i))
         soupPornhub = BeautifulSoup(resultsPornhub.text, 'html.parser')
