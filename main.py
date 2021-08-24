@@ -1,21 +1,23 @@
 import logging, sys, requests, re
 import urllib.request as urllib
-from flask import Flask, render_template, request
+from flask import Flask, session , render_template, request
+from flask_session import Session
 from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 
-index = 0
-keyword =""
+# Check Configuration section for more details
+SESSION_TYPE = 'filesystem'
+app.config.from_object(__name__)
+Session(app)
+
 
 #Default route
 @app.route("/")
 @app.route("/index")
 def home():
-    global keyword
-    global index
-    keyword = ""
-    index = 0
+    session['index'] = 0
+    session['keyword'] = ""
     return render_template('index.htmx')
 
 #Function to scrape Pornhub 
@@ -110,12 +112,13 @@ def results():
     if request.method == 'POST':
         #Get input from form
         form_data = request.form
-        global keyword 
-        keyword = form_data["textinput"]
+        session['keyword'] = form_data["textinput"]
         #Scraping Web
+        keyword = session['keyword']
         resultsLinks, resultsNames, resultsThumbnails = scraping(keyword, 1)
-        global index 
-        index = 2
+        index = session["index"]
+        index = index + 1
+        session['index'] = index
         lenght = len(resultsThumbnails)
         #Display results
         return render_template('results.htmx',form_data = form_data, resultsThumbnails = resultsThumbnails, resultsNames = resultsNames
@@ -124,8 +127,8 @@ def results():
 @app.route("/results/more")
 def more():
     #Scraping Web
-        global index
-        global keyword
+        index = session['index']
+        keyword = session['keyword']
         resultsLinks, resultsNames, resultsThumbnails = scraping(keyword, index)
         lenght = len(resultsThumbnails)
         index += 1
