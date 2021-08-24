@@ -3,6 +3,7 @@ argcomplete==1.12.1
 attrs==21.2.0
 beautifulsoup4==4.9.3
 Flask==2.0.1
+Flask-Session==0.4.0
 gunicorn==20.1.0
 Jinja2==3.0.1
 packaging==20.9
