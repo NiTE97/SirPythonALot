@@ -9,7 +9,7 @@ app = Flask(__name__)
 @app.route("/")
 @app.route("/index")
 def home():
-    return render_template('index.html')
+    return render_template('index.htmx')
 
 #Function to scrape Pornhub 
 #list = list for links and names
@@ -49,10 +49,12 @@ def scrapingLinksAndNamesAndThumbnailsFromYouporn(list, list2):
         i+=1  
     return links, names, thumbnails
 
-def scraping(keyword):
+def scraping(keyword, index):
     pornhub = "https://pornhub.com/video/search?search="
     suffix = "&page="
     youporn = "https://www.youporn.com/search/?query="
+    #x = index * 1
+    #y = index * 2
     
     #Temp Lists for loop
     resultsLinks, resultsNames, resultsThumbnails = [], [], []
@@ -63,7 +65,7 @@ def scraping(keyword):
     #Deployment
     #for i in range(1, 5):
         #Scraping preparation Pornhub
-        resultsPornhub = requests.get(pornhub + keyword + suffix + str(i))
+        resultsPornhub = requests.get(pornhub + keyword + suffix + str(index))
         soupPornhub = BeautifulSoup(resultsPornhub.text, 'html.parser')
         #links and names
         listPornhub = soupPornhub.find_all(class_='rotating')
@@ -71,7 +73,7 @@ def scraping(keyword):
         list2Pornhub = soupPornhub.find_all(class_='fade')
 
         #Scraping preparation Youporn
-        resultsYouporn = requests.get(youporn + keyword + suffix + str(i))
+        resultsYouporn = requests.get(youporn + keyword + suffix + str(index))
         soupYouporn = BeautifulSoup(resultsYouporn.text, 'html.parser')
         #names and thumbnails
         listYouporn = soupYouporn.find_all(class_='js-videoPreview')
@@ -101,13 +103,27 @@ def results():
     if request.method == 'POST':
         #Get input from form
         form_data = request.form
+        global keyword 
         keyword = form_data["textinput"]
         #Scraping Web
-        resultsLinks, resultsNames, resultsThumbnails = scraping(keyword)
+        resultsLinks, resultsNames, resultsThumbnails = scraping(keyword, 1)
+        global index 
+        index = 2
         lenght = len(resultsThumbnails)
         #Display results
-        return render_template('results.html',form_data = form_data, resultsThumbnails = resultsThumbnails, resultsNames = resultsNames
+        return render_template('results.htmx',form_data = form_data, resultsThumbnails = resultsThumbnails, resultsNames = resultsNames
                                 , resultsLinks = resultsLinks, lenght = lenght)
 
+@app.route("/results/more")
+def more():
+    #Scraping Web
+        global index
+        resultsLinks, resultsNames, resultsThumbnails = scraping(keyword, index)
+        lenght = len(resultsThumbnails)
+        index += 1
+        #Display results
+        return render_template('more.htmx',keyword = keyword, resultsThumbnails = resultsThumbnails, resultsNames = resultsNames
+                                , resultsLinks = resultsLinks, lenght = lenght, index = index)
+    
 if __name__ =='__main__':
     app.run(debug=True)

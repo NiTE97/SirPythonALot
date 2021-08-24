@@ -27,8 +27,12 @@
 
     {%endfor%}
 
+    <div hx-get="/results/more" hx-trigger="revealed" hx-swap="afterend" class="load">
+        <img class="htmx-indicator loading" src="{{url_for('static', filename='loading-unscreen.gif')}}"/>
+    </div>
     </div>
 </body>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<script src="https://unpkg.com/htmx.org@1.5.0"></script>
 </html>

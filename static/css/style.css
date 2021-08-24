@@ -80,6 +80,21 @@ header{
     margin-top: 0.2rem;
 }
 
+.htmx-settling img{
+    opacity: 0;
+}
+
+.loading {
+    transition: opacity 300ms ease-in;
+    height: 4rem;
+    width: auto;
+}
+
+.load {
+    display: flex;
+    justify-content: center;
+}
+
 
 
 /* Media Queries */
