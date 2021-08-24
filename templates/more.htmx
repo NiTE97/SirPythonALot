@@ -8,8 +8,6 @@
 </head>
 <body>
 
-<h1>{{index}}</h1>
-
 {%for i in range(0, lenght)%}
   
     <div class="video-item">
