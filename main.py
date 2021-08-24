@@ -115,7 +115,7 @@ def results():
         #Scraping Web
         resultsLinks, resultsNames, resultsThumbnails = scraping(keyword, 1)
         global index 
-        index = 1
+        index = 2
         lenght = len(resultsThumbnails)
         #Display results
         return render_template('results.htmx',form_data = form_data, resultsThumbnails = resultsThumbnails, resultsNames = resultsNames
