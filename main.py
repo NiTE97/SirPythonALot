@@ -5,6 +5,9 @@ from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 
+index = 0
+keyword =""
+
 #Default route
 @app.route("/")
 @app.route("/index")
@@ -108,7 +111,7 @@ def results():
         #Scraping Web
         resultsLinks, resultsNames, resultsThumbnails = scraping(keyword, 1)
         global index 
-        index = 2
+        index = 1
         lenght = len(resultsThumbnails)
         #Display results
         return render_template('results.htmx',form_data = form_data, resultsThumbnails = resultsThumbnails, resultsNames = resultsNames
@@ -118,6 +121,7 @@ def results():
 def more():
     #Scraping Web
         global index
+        global keyword
         resultsLinks, resultsNames, resultsThumbnails = scraping(keyword, index)
         lenght = len(resultsThumbnails)
         index += 1
