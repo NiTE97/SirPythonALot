@@ -118,6 +118,7 @@ def results():
 def more():
     #Scraping Web
         global index
+        global keyword
         resultsLinks, resultsNames, resultsThumbnails = scraping(keyword, index)
         lenght = len(resultsThumbnails)
         index += 1
