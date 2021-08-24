@@ -12,6 +12,10 @@ keyword =""
 @app.route("/")
 @app.route("/index")
 def home():
+    global keyword
+    global index
+    keyword = ""
+    index = 0
     return render_template('index.htmx')
 
 #Function to scrape Pornhub 
