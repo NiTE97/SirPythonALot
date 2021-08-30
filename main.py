@@ -18,7 +18,7 @@ Session(app)
 def home():
     session['index'] = 0
     session['keyword'] = ""
-    return render_template('index.htmx')
+    return render_template('index.html')
 
 #Function to scrape Pornhub 
 #list = list for links and names
@@ -121,7 +121,7 @@ def results():
         session['index'] = index
         lenght = len(resultsThumbnails)
         #Display results
-        return render_template('results.htmx',form_data = form_data, resultsThumbnails = resultsThumbnails, resultsNames = resultsNames
+        return render_template('results.html',form_data = form_data, resultsThumbnails = resultsThumbnails, resultsNames = resultsNames
                                 , resultsLinks = resultsLinks, lenght = lenght)
 
 @app.route("/results/more")
@@ -133,7 +133,7 @@ def more():
         lenght = len(resultsThumbnails)
         index += 1
         #Display results
-        return render_template('more.htmx',keyword = keyword, resultsThumbnails = resultsThumbnails, resultsNames = resultsNames
+        return render_template('more.html',keyword = keyword, resultsThumbnails = resultsThumbnails, resultsNames = resultsNames
                                 , resultsLinks = resultsLinks, lenght = lenght, index = index)
     
 if __name__ =='__main__':
