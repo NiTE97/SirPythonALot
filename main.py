@@ -132,6 +132,7 @@ def more():
         resultsLinks, resultsNames, resultsThumbnails = scraping(keyword, index)
         lenght = len(resultsThumbnails)
         index += 1
+        session['index'] = index
         #Display results
         return render_template('more.html',keyword = keyword, resultsThumbnails = resultsThumbnails, resultsNames = resultsNames
                                 , resultsLinks = resultsLinks, lenght = lenght, index = index)
